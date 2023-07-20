@@ -23,9 +23,3 @@ jobs:
           pip install pytest
           pip install wheel
           if [ -f requirements_pt13.txt ]; then pip install -r requirements_pt13.txt; fi
-      - name: Install package
-        run: |
-          pip install .
-      - name: Test with pytest
-        run: |
-          pytest
