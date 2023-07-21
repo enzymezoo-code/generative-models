@@ -28,16 +28,18 @@ jobs:
           pip install wheel
           if [ -f ${{ matrix.requirements-version }}.txt ]; then pip install -r ${{ matrix.requirements-version }}.txt; fi
           echo "Installed pt13"
-          git clone git@github.com:ninja-build/ninja.git
+
+          pip install git+https://github.com/ninja-build/ninja.git -t ninja
           cd ninja
           cmake -Bbuild-cmake
           cmake --build build-cmake
           export PATH=$PATH:$PWD/build-cmake/
           cd ..
-          git clone git@github.com:pytorch/data.git pt1-torchdata
+
+          pip install git+https://github.com/pytorch/data.git@v0.5.1 -t pt1-torchdata
           cd pt1-torchdata
-          git checkout tags/v0.5.1
           BUILD_S3=1 pip3 install .
+
       - name: Install dependencies
         if: matrix.requirements-version == 'requirements_pt2'
         run: |
@@ -45,7 +47,8 @@ jobs:
           pip install wheel
           if [ -f ${{ matrix.requirements-version }}.txt ]; then pip install -r ${{ matrix.requirements-version }}.txt; fi
           echo "Installed pt2"
-          git clone git@github.com:pytorch/data.git pt2-torchdata
+
+          pip install git+https://github.com/pytorch/data.git@v0.5.1 -t pt2-torchdata
           cd pt2-torchdata
           BUILD_S3=1 pip3 install .
       
