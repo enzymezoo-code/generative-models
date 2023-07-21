@@ -29,15 +29,16 @@ jobs:
           if [ -f ${{ matrix.requirements-version }}.txt ]; then pip install -r ${{ matrix.requirements-version }}.txt; fi
           echo "Installed pt13"
 
-          pip install git+https://github.com/ninja-build/ninja.git -t ninja
+          git clone git://github.com/ninja-build/ninja.git
           cd ninja
           cmake -Bbuild-cmake
           cmake --build build-cmake
           export PATH=$PATH:$PWD/build-cmake/
           cd ..
 
-          pip install git+https://github.com/pytorch/data.git@v0.5.1 -t pt1-torchdata
+          git clone git://github.com/pytorch/data.git pt1-torchdata
           cd pt1-torchdata
+          git checkout tags/v0.5.1
           BUILD_S3=1 pip3 install .
 
       - name: Install dependencies
@@ -48,7 +49,7 @@ jobs:
           if [ -f ${{ matrix.requirements-version }}.txt ]; then pip install -r ${{ matrix.requirements-version }}.txt; fi
           echo "Installed pt2"
 
-          pip install git+https://github.com/pytorch/data.git@v0.5.1 -t pt2-torchdata
+          git clone git://github.com/pytorch/data.git pt2-torchdata
           cd pt2-torchdata
           BUILD_S3=1 pip3 install .
       
