@@ -24,7 +24,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install wheel
-          if [ -f ${{ matrix.python-version }}.txt ]; then pip install -r ${{ matrix.python-version }}.txt; fi
+          if [ -f ${{ matrix.requirements-version }}.txt ]; then pip install -r ${{ matrix.requirements-version }}.txt; fi
           pip install pytest
       - name: Test with pytest
         run: |
