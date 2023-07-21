@@ -62,4 +62,4 @@ jobs:
           pip install pytest
       - name: Test with pytest
         run: |
-          pytest -s --ignore=src/clip
+          pytest -s --ignore=src/clip --ignore=pt2-torchdata --ignore=pt1-torchdata
