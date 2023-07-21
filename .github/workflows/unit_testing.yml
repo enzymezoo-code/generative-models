@@ -25,8 +25,10 @@ jobs:
         if: matrix.requirements-version == 'requirements_pt13'
         run: |
           python -m pip install --upgrade pip
-          pip install wheel
-          if [ -f ${{ matrix.requirements-version }}.txt ]; then pip install -r ${{ matrix.requirements-version }}.txt; fi
+          pip3 install --upgrade pip3
+
+          pip3 install wheel
+          if [ -f ${{ matrix.requirements-version }}.txt ]; then pip3 install -r ${{ matrix.requirements-version }}.txt; fi
           echo "Installed pt13"
 
           git clone https://github.com/ninja-build/ninja.git
@@ -45,8 +47,10 @@ jobs:
         if: matrix.requirements-version == 'requirements_pt2'
         run: |
           python -m pip install --upgrade pip
-          pip install wheel
-          if [ -f ${{ matrix.requirements-version }}.txt ]; then pip install -r ${{ matrix.requirements-version }}.txt; fi
+          pip3 install --upgrade pip3
+
+          pip3 install wheel
+          if [ -f ${{ matrix.requirements-version }}.txt ]; then pip3 install -r ${{ matrix.requirements-version }}.txt; fi
           echo "Installed pt2"
 
           git clone https://github.com/pytorch/data.git pt2-torchdata
@@ -55,7 +59,7 @@ jobs:
       
       - name: Install pytest
         run: |
-          pip install pytest
+          pip3 install pytest
       - name: Test with pytest
         run: |
           pytest -s --ignore=src/clip
