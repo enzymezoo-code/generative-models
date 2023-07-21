@@ -9,6 +9,7 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.8", "3.9", "3.10"]
+        requirements-version: ["requirements_pt13", "requirements_pt2"]
 
     steps:
       - uses: actions/checkout@v3
@@ -22,9 +23,9 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pytest
           pip install wheel
-          if [ -f requirements_pt13.txt ]; then pip install -r requirements_pt13.txt; fi
+          if [ -f ${{ matrix.python-version }}.txt ]; then pip install -r ${{ matrix.python-version }}.txt; fi
+          pip install pytest
       - name: Test with pytest
         run: |
           pytest -s --ignore=src/clip
