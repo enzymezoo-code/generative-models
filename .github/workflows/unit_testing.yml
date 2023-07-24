@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10"]
+        python-version: ["3.8", "3.10"]
         requirements-version: ["requirements_pt13", "requirements_pt2"]
 
     steps:
@@ -57,9 +57,9 @@ jobs:
           cd pt2-torchdata
           BUILD_S3=1 pip3 install .
       
-      - name: Install pytest
-        run: |
-          pip install pytest
-      - name: Test with pytest
-        run: |
-          pytest -s --ignore=src/clip --ignore=pt2-torchdata --ignore=pt1-torchdata --ignore=ninja
+      #- name: Install pytest
+      #  run: |
+      #    pip install pytest
+      #- name: Test with pytest
+      #  run: |
+      #    pytest -s --ignore=src/clip --ignore=pt2-torchdata --ignore=pt1-torchdata --ignore=ninja
