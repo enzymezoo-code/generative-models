@@ -53,7 +53,7 @@ jobs:
         run: |
           pwd
           ls
-          git rev-parse HEAD
+          git --no-pager log --oneline -n 15
           git rev-parse HEAD^
           echo ${{ github.event.pull_request.head.sha }}
           [[ "$(git rev-parse 'HEAD^')" == "${{ github.event.pull_request.head.sha }}" ]]
