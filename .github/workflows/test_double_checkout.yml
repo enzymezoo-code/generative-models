@@ -49,6 +49,9 @@ jobs:
       - name: Sanity check
         working-directory: ./merged-pr
         run: |
+          pwd
+          ls
+          git rev-parse 'HEAD^'
           [[ "$(git rev-parse 'HEAD^')" == "${{ github.event.pull_request.head.sha }}" ]]
 
       - name: Install merged PR
