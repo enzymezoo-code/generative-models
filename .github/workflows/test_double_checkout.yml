@@ -28,6 +28,10 @@ jobs:
           mkdir mockdir
           pwd
           ls
+          echo "contents of base"
+          cd base
+          pwd
+          ls
 
       - name: Checkout merged PR
         uses: actions/checkout@v3
@@ -37,8 +41,10 @@ jobs:
       # Important security check: https://github.com/actions/checkout/issues/518
       - name: Sanity check
         run: |
-          cd merged-pr
           [[ "$(git rev-parse 'HEAD^')" == "${{ github.event.pull_request.head.sha }}" ]]
+          pwd
+          ls
+          ls merged-pr
 
       - name: Install merged PR
         working-directory: ./merged-pr
