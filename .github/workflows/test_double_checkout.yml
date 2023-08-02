@@ -54,6 +54,7 @@ jobs:
           pwd
           ls
           git rev-parse HEAD^
+          echo ${{ github.event.pull_request.head.sha }}
           [[ "$(git rev-parse 'HEAD^')" == "${{ github.event.pull_request.head.sha }}" ]]
 
       - name: Install merged PR
