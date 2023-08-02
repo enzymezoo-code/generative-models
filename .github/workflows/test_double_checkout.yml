@@ -1,4 +1,4 @@
-name: Quality Regression Test
+name: Test double checkout
 
 on: 
     pull_request:
