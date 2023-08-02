@@ -28,7 +28,7 @@ jobs:
           mkdir mockdir
           pwd
           ls
-          echo "contents of base"
+          echo "Contents of base dir:"
           cd base
           pwd
           ls
@@ -38,13 +38,22 @@ jobs:
         with:
           ref: "refs/pull/${{ github.event.number }}/merge"
           path: merged-pr
-      # Important security check: https://github.com/actions/checkout/issues/518
-      - name: Sanity check
-        run: |
-          [[ "$(git rev-parse 'HEAD^')" == "${{ github.event.pull_request.head.sha }}" ]]
+      - run: |
+          echo "HEAD ref: ${{github.head_ref}}"
+          echo "BASE ref: ${{github.base_ref}}"
+          echo $(git rev-parse 'HEAD^')
+          mkdir mockdir
           pwd
           ls
-          ls merged-pr
+          echo "Contents of dir:"
+          cd merged-pr
+          pwd
+          ls
+      # Important security check: https://github.com/actions/checkout/issues/518
+      - name: Sanity check
+        working-directory: ./merged-pr
+        run: |
+          [[ "$(git rev-parse 'HEAD^')" == "${{ github.event.pull_request.head.sha }}" ]]
 
       - name: Install merged PR
         working-directory: ./merged-pr
