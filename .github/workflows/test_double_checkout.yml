@@ -1,0 +1,90 @@
+name: Test double checkout
+
+on: 
+    pull_request:
+      types: [opened, synchronize, reopened]
+
+jobs:
+  test:
+    name: "Test inference"
+    # This action is designed only to run on the Stability research cluster at this time, so many assumptions are made about the environment
+    if: github.repository == 'enzymezoo-code/generative-models'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10"]
+        requirements-file: ["pt2", "pt13"]
+    steps:
+      - name: Checkout base branch
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.base_ref }}
+          fetch-depth: 0
+          path: base
+      - name: See base-dir contents
+        working-directory: ./base
+        run: |
+          echo "HEAD ref: ${{github.head_ref}}"
+          echo "BASE ref: ${{github.base_ref}}"
+          echo $(git rev-parse 'HEAD^')
+          mkdir mockdir
+          ls
+          pwd
+
+      - name: Checkout merged PR
+        uses: actions/checkout@v3
+        with:
+          ref: "refs/pull/${{ github.event.number }}/merge"
+          fetch-depth: 0
+          path: merged-pr
+      - name: See merged-dir contents
+        working-directory: ./merged-pr
+        run: |
+          echo "HEAD ref: ${{github.head_ref}}"
+          echo "BASE ref: ${{github.base_ref}}"
+          echo $(git rev-parse 'HEAD^')
+          mkdir mockdir
+          ls
+          pwd
+      # Important security check: https://github.com/actions/checkout/issues/518
+      - name: Sanity check
+        working-directory: ./merged-pr
+        run: |
+          [[ "$(git rev-parse 'HEAD^2')" == "${{ github.event.pull_request.head.sha }}" ]]
+
+      - name: Install merged PR
+        working-directory: ./merged-pr
+        run: |
+          python3 -m venv .${{ matrix.requirements-file }}
+          source .${{ matrix.requirements-file }}/bin/activate
+          python -m pip install --upgrade pip
+          pip install -r requirements/${{ matrix.requirements-file }}.txt
+          pip install .
+          pip install pytest
+          pwd
+          ls
+      
+      - name: Install base branch
+        working-directory: ./base
+        run: |
+          python3 -m venv .${{ matrix.requirements-file }}
+          source .${{ matrix.requirements-file }}/bin/activate
+          python -m pip install --upgrade pip
+          pip install -r requirements/${{ matrix.requirements-file }}.txt
+          pip install .
+          pip install pytest
+          pwd
+          ls
+
+      - name: Show merged PR
+        working-directory: ./merged-pr
+        run: |
+          pwd
+          ls 
+      
+      - name: Generate images from base branch
+        working-directory: ./base
+        run: |
+          pwd
+          ls   
