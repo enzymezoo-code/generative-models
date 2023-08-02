@@ -9,7 +9,7 @@ jobs:
     name: "Test inference"
     # This action is designed only to run on the Stability research cluster at this time, so many assumptions are made about the environment
     if: github.repository == 'enzymezoo-code/generative-models'
-    runs-on: [self-hosted, slurm, g40]
+    runs-on: ununtu-latest
     strategy:
       fail-fast: false
       matrix:
