@@ -21,34 +21,30 @@ jobs:
         with:
           ref: ${{ github.base_ref }}
           path: base
-      - run: |
+      - name: See base-dir contents
+        working-directory: ./base
+        run: |
           echo "HEAD ref: ${{github.head_ref}}"
           echo "BASE ref: ${{github.base_ref}}"
           echo $(git rev-parse 'HEAD^')
           mkdir mockdir
-          pwd
           ls
-          echo "Contents of base dir:"
-          cd base
           pwd
-          ls
 
       - name: Checkout merged PR
         uses: actions/checkout@v3
         with:
           ref: "refs/pull/${{ github.event.number }}/merge"
           path: merged-pr
-      - run: |
+      - name: See merged-dir contents
+        working-directory: ./merged-pr
+        run: |
           echo "HEAD ref: ${{github.head_ref}}"
           echo "BASE ref: ${{github.base_ref}}"
           echo $(git rev-parse 'HEAD^')
           mkdir mockdir
-          pwd
           ls
-          echo "Contents of dir:"
-          cd merged-pr
           pwd
-          ls
       # Important security check: https://github.com/actions/checkout/issues/518
       - name: Sanity check
         working-directory: ./merged-pr
